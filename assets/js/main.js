@@ -33,7 +33,7 @@
 				  hideAfter: 3,
 				  showCloseButton: true
 				});
-	 	
+
 	 	if (bondSelected)
 	 		bondSelected.style("filter", "");
 
@@ -71,7 +71,7 @@
 				],
 				callback: function(data) {
 					if (data !== false) {
-						
+
 						newMoleculeSimulation(JSON.parse(data.molecule));
 					}
 				}
@@ -89,9 +89,10 @@
 			newMolecule = newMolecule[example];
 		newMolecule = $.extend(true, {}, newMolecule);
 		orgoShmorgo(newMolecule);
-		
+
+		// Load Pcap call here
 		Messenger().post({
-		  message: 'New Molecule Loaded',
+		  message: 'New Pcap Loaded',
 		  type: 'success',
 		  showCloseButton: true,
 		  hideAfter: 2
@@ -106,12 +107,12 @@
     moleculeExamples = json;
     newMoleculeSimulation (moleculeExamples, '2-amino-propanoic_acid');
 	});
-	
+
 	var orgoShmorgo = function(graph) {
 	  var nodesList, linksList;
 	  nodesList = graph.nodes;
 	  linksList = graph.links;
-	  		
+
 
 	  var force = d3.layout.force()
 	    						.nodes(nodesList)
@@ -155,10 +156,10 @@
 						// Give bond the power to be selected
 						d3.select(this)
 							.on("click", bondClicked);
-		      }); 
+		      });
 
 		  // Delete removed links
-		  link.exit().remove(); 
+		  link.exit().remove();
 
 		  // Update node data
 	  	node = node.data(nodes, function (d) {return d.id; });
@@ -184,7 +185,7 @@
 						d3.select(this)
 							.on("click", atomClicked);
 
-						// Grant atom the power of gravity	
+						// Grant atom the power of gravity
 						d3.select(this)
 							.call(force.drag);
 			    });
@@ -291,22 +292,22 @@
 					}
 					source.bonds += changeInCharge;
 					target.bonds += changeInCharge;
-					
+
 					// Remove old bond, create new one and add it to links list
 					// Simple change of bond value is buggy
 					links.splice(i, 1);
 					var newBond = {
 		 				source: bondData.source,
-		 				target: bondData.target, 
-		 				bondType: newBondType, 
+		 				target: bondData.target,
+		 				bondType: newBondType,
 		 				id: generateRandomID()
 		 			};
 		 			links.push(newBond);
-		 			
+
 		 			// Clear previous bond selection
 		 			bondSelected.style("filter", "");
 		 			bondSelected = null;
-		 			
+
 		 			break;
 				}
 			}
@@ -366,10 +367,10 @@
 	 			nodes.push(tempHydrogen);
 	 			links.push({
 	 				source: atom,
-	 				target: tempHydrogen, 
-	 				bondType: 1, 
+	 				target: tempHydrogen,
+	 				bondType: 1,
 	 				id: generateRandomID()
-	 			});	
+	 			});
 	 		}
 	 	}
 
@@ -378,8 +379,8 @@
 	 		for (var i = bondsArr.length - 1; i >= 0; i--) {
 	 			target = bondsArr[i].target, source = bondsArr[i].source;
 				if (target.symbol === 'H' || source.symbol === 'H' ) {
-					var hydroId = source.symbol === 'H'? 
-																		source.id: 
+					var hydroId = source.symbol === 'H'?
+																		source.id:
 																		target.id;
 					removeAtom(hydroId);
 					return;
@@ -391,19 +392,19 @@
 	 		var atomToRemove = retriveAtom(id);
 	 		var bondsArr = getBonds(id);
 	 		var atomsArr = [atomToRemove.id];
-	 		
+
 	 		for (var i = bondsArr.length - 1; i >= 0; i--) {
 	 			// Add atom that is a hydrogen
 	 			if (bondsArr[i].source.symbol === 'H')
 	 				atomsArr.push(bondsArr[i].source.id);
 	 			else if (bondsArr[i].target.symbol === 'H')
-	 				atomsArr.push(bondsArr[i].target.id); 
+	 				atomsArr.push(bondsArr[i].target.id);
 	 			else {
 	 					// Give non-hydrogen bonded atom it's lone pairs back
-						var nonHydrogenAtom = bondsArr[i].target.id !== id ? 
+						var nonHydrogenAtom = bondsArr[i].target.id !== id ?
 																									 	'target':
 																										'source';
-							
+
 						bondsArr[i][nonHydrogenAtom].bonds -= bondsArr[i].bondType;
 		 				addHydrogens(bondsArr[i][nonHydrogenAtom], bondsArr[i].bondType);
 	 			}
@@ -422,7 +423,7 @@
 
 	 		// Remove atoms marked
 	 		nodes = spliceOut (nodes, atomsArr);
-	 		
+
 	 		// Remove bonds marked
 	 		links = spliceOut (links, bondsArr);
 
@@ -450,14 +451,14 @@
 		  getAtomData(atomSelected).bonds++; // Increment bond count on selected atom
 		 	addHydrogens(newAtom, atomDB[atomType].lonePairs - 1); // Adds hydrogens to new atom
 		 	removeHydrogen(getAtomData(atomSelected)); // Remove hydrogen from selected atom
-		  
+
 		  links.push({
-		  	source: newAtom, 
-		  	target: getAtomData(atomSelected), 
-		  	bondType: 1, 
+		  	source: newAtom,
+		  	target: getAtomData(atomSelected),
+		  	bondType: 1,
 		  	id: generateRandomID()
 		  }); // Need to make sure is unique
-		  
+
 	  	buildMolecule();
 	  }
 
