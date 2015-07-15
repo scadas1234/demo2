@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+	<head>
+		<title>orgoShmorgo</title>
+
+		<style type="text/css">
+		 body {
+		 	padding-top: 50px; 
+		 	background-color: #e5e5e5 !important;
+		 }
+		</style>
+		<!-- CSS -->
+		<link rel="stylesheet" type="text/css" href="assets/libs/bootstrap/css/bootstrap-3.0.3.min.css">
+		<link rel="stylesheet" type="text/css" href="assets/libs/bootswatch/flatly/bootstrap.min.css">
+		
+		<link rel="stylesheet" href="assets/libs/vex/vex.css" />
+		<link rel="stylesheet" href="assets/libs/vex/vex-theme-default.css" />
+		<link rel="stylesheet" type="text/css" href="assets/libs/messenger/css/messenger.css">
+		<link rel="stylesheet" type="text/css" href="assets/libs/messenger/css/messenger-theme-flat.css">
+		<link rel="stylesheet" type="text/css" href="assets/css/main.css">
+		
+	</head>
+	<body>
+
+	    <!-- container for svg root element -->
+		<div class="container">
+			<div id="controlPanel" class="row">
+				<div class="row">
+					<div class="col-md-8">
+						<div class="input-group">
+					   <!-- <input type="text" disabled style="background-color: #fff; cursor: auto;" placeholder="Carbon Name" class="form-control"> 
+					      	<span class="input-group-btn">
+					    		<button style="padding-left:5px" class="btn btn-default" onclick="loadMoleculeExample()" type="button">Load Molecule</button>
+					    	</span> -->
+						    <select id="moleculeExample" class="form-control">
+							    <option selected value="2-amino-propanoic_acid">2-amino-propanoic acid</option>
+							    <option value="N,N-diethylhexanamide">N,N-diethylhexanamide</option>
+							    <option value="N-ethyl-N-propyl-3-methylbutanamide">N-ethyl-N-propyl-3-methylbutanamide</option>
+							    <option value="ethyl 1-ethylpent-3-enoate">ethyl 1-ethylpent-3-enoate</option>
+							    <option value="2-bromo-3-ethoxy-4-methylhexane">2-bromo-3-ethoxy-4-methylhexane</option>
+							    <option value="1-iodo-2-chloroethyne">1-iodo-2-chloroethyne</option>
+							    <option value="2-bromo-2,3-difluoropent-4-ynoic_acid">2-bromo-2,3-difluoropent-4-ynoic acid</option>
+							    <option value="4,4-dibromo-3,3-dimethylpent-2-one">4,4-dibromo-3,3-dimethylpent-2-one</option>
+							    <option value="5-methyloct-3-yn-2,6-dione">5-methyloct-3-yn-2,6-dione</option>
+							    <option value="3-methyl-3-iodobutanal">3-methyl-3-iodobutanal</option>
+							    <option value="3-iodo-3-methylhexan-1,4-diamine">3-iodo-3-methylhexan-1,4-diamine</option>
+							</select>
+							<span class="input-group-btn">
+					    		<button style="margin-left: 5px; margin-right:210px" class="btn btn-default" onclick="loadMoleculeExample()" type="button">Load Molecule</button>
+					    	</span>
+					    </div><!-- /input-group -->
+					</div>
+					<div class="col-md-4">
+						<div class="text-right">
+							<button type="button" onclick="saveMolecule()" class="btn btn-info">Save Molecule </button>
+							<button type="button" onclick="loadMolecule()" class="btn btn-info">Load Molecule </button>
+						</div>
+					</div>
+				</div>
+				<div style="margin-top: 10px; margin-bottom: 10px" class="row">
+					<div class="col-md-6">
+						<!-- Standard button -->
+						<button type="button" onclick="addAtom('C')" class="btn btn-primary">Carbon </button>
+						<div class="btn-group">
+						  <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+						    Functional Groups <span class="caret"></span>
+						  </button>
+						  <ul class="dropdown-menu" role="menu">
+						    <li><a href="#" onclick="addAtom('O')">Oxygen (O)</a></li>
+						    <li><a href="#" onclick="addAtom('N')">Nitrogen (N)</a></li>
+						  </ul>
+						</div>
+						<div class="btn-group">
+						  <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown">
+						    Halogens <span class="caret"></span>
+						  </button>
+						  <ul class="dropdown-menu" role="menu">
+						    <li><a href="#" onclick="addAtom('Cl')">Chlorine (Cl)</a></li>
+						    <li><a href="#" onclick="addAtom('Br')">Bromine (Br)</a></li>
+						    <li><a href="#" onclick="addAtom('I')">Iodine (I)</a></li>
+						    <li><a href="#" onclick="addAtom('F')">Fluorine (F)</a></li>
+						  </ul>
+						</div>
+						<div class="btn-group">
+						  <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+						    Bonds <span class="caret"></span>
+						  </button>
+						  <ul class="dropdown-menu" role="menu">
+						    <li><a href="#" onclick="changeBond(1)">Single Bond</a></li>
+						    <li><a href="#" onclick="changeBond(2)">Double Bond</a></li>
+						    <li><a href="#" onclick="changeBond(3)">Triple Bond</a></li>
+						  </ul>
+						</div>
+						<button type="button" onclick="deleteAtom()" class="btn btn-danger">Delete Atom </button>
+					</div>
+					<div class="col-md-4">
+						
+					</div>
+				</div>
+			</div>
+			<div id="moleculeDisplay" style="border: 1px solid black; background-color: #FFF" class="row"></div>
+		</div>
+
+		<div>
+			<footer style="margin-top: 15px" class="text-center">
+				<p>Made with <i class="glyphicon glyphicon-heart"></i> by <a href="http://stolarsky.com/">Emil Stolarsky</a></p>
+			</footer>
+		</div>
+
+
+		<!-- Javascript -->
+		<script type="text/javascript" src="assets/libs/jquery/jquery-1.10.2.min.js"></script>
+		<script type="text/javascript" src="assets/libs/bootstrap/js/bootstrap-3.0.3.min.js"></script>
+		<script type="text/javascript" src="assets/libs/messenger/js/messenger.min.js"></script>
+		<script type="text/javascript" src="assets/libs/messenger/js/messenger-theme-flat.js"></script>
+		<script type="text/javascript">
+			Messenger.options = {
+			    extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
+			    theme: 'flat'
+			};
+		</script>
+		<script src="assets/libs/vex/vex.combined.min.js"></script>
+		<script>vex.defaultOptions.className = 'vex-theme-default';</script>
+		<script type="text/javascript" src="assets/libs/d3/d3.v3.min.js"></script>
+		<script type="text/javascript" src="assets/libs/glow.js"></script>
+		<script type="text/javascript" src="assets/js/atomDB.js"></script>
+		<script type="text/javascript" src="assets/js/main.js"></script>
+	</body>
+</html>
