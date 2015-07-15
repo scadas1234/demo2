@@ -314,6 +314,7 @@
 			buildMolecule();
 	  };
 
+		// function called when 1 of our tab/buttons is pressed
 	  window.addAtom = function (atomType) {
 	  	if (!atomType) {
 	  		Messenger().post({
